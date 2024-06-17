@@ -7,7 +7,8 @@ for the game [Grim Dawn](https://www.grimdawn.com/).
 motivation for creating this tool is to learn Rust, so it won't be too polished.
 Currently it supports the following options:
 
-```Usage: gd-analyzer [OPTIONS] --archive <ARCHIVE> --command <COMMAND>
+```
+Usage: gd-analyzer [OPTIONS] --archive <ARCHIVE> --command <COMMAND>
 
 Options:
   -a, --archive <ARCHIVE>
@@ -30,7 +31,8 @@ Options:
           Print help (see a summary with '-h')
 
   -V, --version
-          Print version```
+          Print version
+```
 
 `decode` should be used with caution since it will panic if it encounters a
 non-utf8 character. The `--file` switch is currently only used with `decode`.
