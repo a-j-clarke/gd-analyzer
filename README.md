@@ -39,7 +39,7 @@ non-utf8 character. The `--file` switch is currently only used with `decode`.
 
 ## Roadmap
 
-- [ ]Make `decode` command more robust
-- [ ]Add interactive mode
-- [ ]Add support for `.arz` files
-- [ ]Add advanced filtering options
+- [ ] Make `decode` command more robust
+- [ ] Add interactive mode
+- [ ] Add support for `.arz` files
+- [ ] Add advanced filtering options
