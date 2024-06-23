@@ -5,6 +5,7 @@ use clap::error::Result;
 use lz4::block::decompress;
 
 #[binrw]
+#[brw(little)]
 #[derive(Debug)]
 pub struct Header {
     version: u32, // not sure yet what this number represents, calling it version for now
@@ -40,18 +41,15 @@ pub struct FileIndex {
     data_offset: u32,
     compressed_size: u32,
     uncompressed_size: u32,
-    buffer: [u8; 12],
+    hash: u32,
+    timestamp: u64,
     number_of_files: u32,
     offset_list_position: u32,
     filename_length: u32,
     file_list_offset: u32,
 }
 
-impl FileIndex {
-    fn get_buffer(&self) -> Vec<u8> {
-        self.buffer.to_vec()
-    }
-}
+impl FileIndex {}
 
 #[binrw]
 #[brw(little, magic = b"ARC\0")]
@@ -74,10 +72,6 @@ impl Archive {
 
     pub fn get_header(&self) -> &Header {
         self.header.get()
-    }
-
-    pub fn get_buffers(&self) -> Vec<Vec<u8>> {
-        self.index.iter().map(|x| x.get_buffer()).collect()
     }
 
     pub fn get_filenames(&self) -> Vec<String> {

@@ -1,6 +1,7 @@
-use archivereader::Archive;
 use binrw::BinRead;
 use clap::{Parser, ValueEnum};
+use gd_analyzer::datahandler::archivereader::Archive;
+use gd_analyzer::datahandler::dbreader::Arz;
 use std::fs::File;
 
 #[derive(Parser, Debug)]
@@ -29,12 +30,7 @@ enum Command {
     Decode,
     /// Print archive index
     Index,
-    /// Get buffers from file index only
-    Buffers,
 }
-
-// mod dbr;
-mod archivereader;
 
 fn main() {
     let args = Args::parse();
@@ -47,10 +43,12 @@ fn main() {
                 println!("{}", file);
             }
         }
-        Command::Decode => match args.file {
+        Command::Decode => match &args.file {
             Some(name) => {
-                if let Ok(decoded) = arc.decode(&name) {
+                if let Ok(decoded) = arc.decode(name) {
                     println!("{}", std::str::from_utf8(&decoded).unwrap());
+                } else {
+                    println!("Error processing {:?}", args.file);
                 }
             }
             None => println!("Please provide a filename to decode"),
@@ -63,19 +61,6 @@ fn main() {
             let index = arc.get_index();
             for entry in index {
                 println!("{entry:?}");
-            }
-        }
-        Command::Buffers => {
-            let buffers = arc.get_buffers();
-            for entry in buffers {
-                println!(
-                    "[{}]",
-                    entry
-                        .iter()
-                        .map(|x| format!("{x:#4?}"))
-                        .collect::<Vec<_>>()
-                        .join(",")
-                );
             }
         }
     }
